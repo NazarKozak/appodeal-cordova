@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="com.plugin.appodeal" version="2.6.4" xmlns:android="http://schemas.android.com/apk/res/android" xmlns="http://apache.org/cordova/ns/plugins/1.0">
+	<name>Appodeal Plugin</name>
+	<description>Appodeal Plugin</description>
+	<author>Appodeal</author>
+
+	<engines>
+		<engine name="cordova-android" version="&gt;=3.5.0" />
+		<engine name="cordova-ios" version="&gt;=3.5.0" />
+	</engines>
+
+	<js-module name="Appodeal" src="www/appodeal.js">
+		<clobbers target="Appodeal"/>
+	</js-module>
+
+	<preference name="ADMOB_ANDROID_APP_ID" default=""/>
+    <preference name="ADMOB_IOS_APP_ID" default=""/>
+    <preference name="PLAY_SERVICES_VERSION" default="17.0.0"/>
+
+	<platform name="android">
+		<config-file parent="/*" target="res/xml/config.xml">
+	    	<feature name="AppodealPlugin">
+	        	<param name="android-package" value="com.plugin.appodeal.AppodealPlugin"/>
+	    	</feature>
+		</config-file>
+
+	<config-file target="AndroidManifest.xml" parent="/*">
+		<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+		<uses-permission android:name="android.permission.INTERNET" />
+	</config-file>
+
+	<config-file target="AndroidManifest.xml" parent="/manifest/application">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="$ADMOB_ANDROID_APP_ID"/>
+	</config-file>
+
+	<edit-config file="AndroidManifest.xml" target="/manifest/application" mode="merge">
+      <application android:networkSecurityConfig="@xml/network_security_config"/>
+    </edit-config>
+
+    <resource-file src="src/android/res/xml/network_security_config.xml" target="res/xml/network_security_config.xml" />
+	<framework src="com.google.android.gms:play-services-ads:$PLAY_SERVICES_VERSION" />
+	
+	<source-file src="src/android/AppodealPlugin.java" target-dir="src/com/appodeal/plugin" />
+	<framework src="src/android/plugin.gradle" custom="true" type="gradleReference"/>
+
+	</platform>
+
+	<platform name="ios">
+	<config-file parent="/widget" target="config.xml">
+	<feature name="AppodealPlugin">
+	  <param name="ios-package" value="AppodealPlugin"/>
+	</feature>
+	</config-file>
+	<config-file target="*-Info.plist" parent="NSAppTransportSecurity">
+	  <dict>
+	      <key>NSAllowsArbitraryLoads</key>
+	      <true/>
+	      <key>NSAllowsArbitraryLoadsInWebContent</key>
+	      <true/>
+	  </dict>
+	</config-file>
+	<config-file target="*-Info.plist" parent="NSCalendarsUsageDescription">
+	  <string>Advertising</string>
+	</config-file>
+	<config-file target="*-Info.plist" parent="NSBluetoothPeripheralUsageDescription">
+	  <string>Advertising</string>
+	</config-file>
+	<config-file target="*-Info.plist" parent="NSLocationWhenInUseUsageDescription">
+	  <string>Advertising</string>
+	</config-file>
+	<config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription">
+	  <string>Advertising</string>
+	</config-file>
+	<header-file src="src/ios/AppodealPlugin.h"/>
+	<source-file src="src/ios/AppodealPlugin.m"/>
+	</platform>
+</plugin>
